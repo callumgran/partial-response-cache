@@ -5,36 +5,33 @@ interface CacheLine {
 }
 
 export class PartialChunkCache<T> {
-  keyFunc: (key: T) => string;
-  values: Map<string, CacheLine>;
-  lruQueue: string[];
-  maxCacheSize: number;
-  chunkSize: number;
+  private keyFunc: (key: T) => string;
+  private values: Map<string, CacheLine>;
+  private lruQueue: string[];
+  private maxCacheSize: number;
 
   constructor(
     keyFunc: (key: T) => string,
-    maxCacheSize: number = 32,
-    chunkSize: number = 1024 * 1024
+    maxCacheSize: number = 32
   ) {
     this.keyFunc = keyFunc;
     this.values = new Map();
     this.lruQueue = [];
     this.maxCacheSize = maxCacheSize;
-    this.chunkSize = chunkSize;
   }
 
-  getKey(key: T): string {
+  protected getKey(key: T): string {
     return this.keyFunc(key);
   }
 
-  getCacheLine(key: T): CacheLine | undefined {
+  protected getCacheLine(key: T): CacheLine | undefined {
     const cacheKey = this.getKey(key);
     this.lruQueue = this.lruQueue.filter((k) => k !== cacheKey);
     this.lruQueue.push(cacheKey);
     return this.values.get(cacheKey);
   }
 
-  cacheChunk(
+  protected cacheChunk(
     key: T,
     chunkIndex: number,
     buffer: Blob,
@@ -68,7 +65,7 @@ export class PartialChunkCache<T> {
     }
   }
 
-  getChunks(
+  protected getChunks(
     cacheLine: CacheLine,
     start: number,
     end: number

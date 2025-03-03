@@ -1,12 +1,15 @@
 import { PartialChunkCache } from "./partialChunkCache";
 
-export class StreamingCache extends PartialChunkCache<string> {
+export class PartialResponseCache extends PartialChunkCache<string> {
+  private chunkSize: number;
+
   constructor(
     keyFunc: (key: string) => string,
     maxCacheSize: number = 32,
     chunkSize: number = 1024 * 1024
   ) {
-    super(keyFunc, maxCacheSize, chunkSize);
+    super(keyFunc, maxCacheSize);
+    this.chunkSize = chunkSize;
   }
 
   async handleRequest(request: Request): Promise<Response> {
