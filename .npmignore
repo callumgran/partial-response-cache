@@ -1,0 +1,6 @@
+benchmarks/
+benchmarks/*
+test/
+test/*
+examples/
+examples/*

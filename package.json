@@ -1,0 +1,49 @@
+{
+  "name": "stream_cache",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A lightweight package for caching streams in service workers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": "dist/index.js",
+  "sideEffects": false,
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc && rollup -c",
+    "prepublishOnly": "npm run clean && npm run build",
+    "benchmark": "tsx benchmarks/benchmark.ts",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.34.8",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  },
+  "author": {
+    "name": "Callum Gran",
+    "email": "callum.gran@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callumgran/streaming-cache"
+  },
+  "license": "MIT",
+  "keywords": [
+    "service-worker",
+    "cache",
+    "streaming",
+    "partial-response",
+    "partial-response-cache"
+  ],
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
+}

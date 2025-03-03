@@ -1,0 +1,14 @@
+# Output files
+dist/
+dist/*
+
+# Node Modules
+node_modules/
+node_modules/*
+
+# Code editor files
+.vscode/
+.vscode/*
+
+# Config files
+tsconfig.tsbuildinfo
