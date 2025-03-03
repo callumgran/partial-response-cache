@@ -46,6 +46,12 @@ self.addEventListener("fetch", (event) => {
 });
 ```
 
+If you import the npm package you will have to use webpack or another bundler to bundle the service worker. If you don't want to do that, you can use the a CDN link to the unpkg version of the package:
+
+```js
+import { PartialResponseCache } from 'https://cdn.jsdelivr.net/npm/partial-response-cache@latest/dist/index.js';
+```
+
 ### How do I know if it's working?
 
 When requesting from the backend you will see in the network tab that each request will take anywhere from 200ms to 1s. When you have the service worker running, the first request will take the same amount of time, but subsequent requests will be almost instant, around 2-10ms depending on your machine. This will still show in the network tab because the service worker intercepts the request, but if you want you can use the `Offline` option in the network tab to see that you still get data even when offline.
