@@ -1,5 +1,5 @@
 {
-  "name": "streaming-cache",
+  "name": "partial-response-cache",
   "version": "1.0.0",
   "type": "module",
   "description": "A lightweight package for caching streams and partial responses in service workers",
