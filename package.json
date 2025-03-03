@@ -2,7 +2,7 @@
   "name": "stream_cache",
   "version": "1.0.0",
   "type": "module",
-  "description": "A lightweight package for caching streams in service workers",
+  "description": "A lightweight package for caching streams and partial responses in service workers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "browser": "dist/index.js",
