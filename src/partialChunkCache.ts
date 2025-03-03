@@ -53,11 +53,8 @@ export class PartialChunkCache<T> {
     }
 
     if (!cacheLine.chunks.has(chunkIndex)) {
-      cacheLine.sortedKeys.splice(
-        this.binarySearch(cacheLine.sortedKeys, chunkIndex),
-        0,
-        chunkIndex
-      );
+      cacheLine.sortedKeys.push(chunkIndex);
+      cacheLine.sortedKeys.sort((a, b) => a - b);
     }
 
     cacheLine.chunks.set(chunkIndex, buffer);
@@ -80,18 +77,15 @@ export class PartialChunkCache<T> {
 
     let responseIndexes: number[] = [];
     let responseChunks: Blob[] = [];
-    let i = this.binarySearch(cacheLine.sortedKeys, start);
-
-    for (; i < cacheLine.sortedKeys.length; i++) {
+    for (let i = 0; i < cacheLine.sortedKeys.length; i++) {
       const chunkStart = cacheLine.sortedKeys[i];
       if (chunkStart > end) break;
 
       const buffer = cacheLine.chunks.get(chunkStart);
       if (!buffer) continue;
-      
-      const chunkEnd = chunkStart + buffer.size - 1;
 
-      if (chunkEnd >= start) {
+      const chunkEnd = chunkStart + buffer.size - 1;
+      if (chunkStart <= end && chunkEnd >= start) {
         responseChunks.push(buffer);
         responseIndexes.push(chunkStart);
       }
@@ -109,21 +103,10 @@ export class PartialChunkCache<T> {
     const responseEnd = Math.min(lastChunkIdx, end);
     const responseSize = responseEnd - responseStart + 1;
 
-    if (responseSize < (end - start + 1)) {
-        return { indexes: [], buffers: [] };
+    if (responseSize < end - start + 1) {
+      return { indexes: [], buffers: [] };
     }
 
     return { indexes: responseIndexes, buffers: responseChunks };
-  }
-
-  private binarySearch(arr: number[], value: number): number {
-    let low = 0;
-    let high = arr.length;
-    while (low < high) {
-      let mid = (low + high) >>> 1;
-      if (arr[mid] < value) low = mid + 1;
-      else high = mid;
-    }
-    return low;
   }
 }
